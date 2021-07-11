@@ -65,11 +65,23 @@ const addBookHandler = (request, h) => {
   return response
 }
 
-const getAllBooksHandler = (request, h) => {
+const getAllBooksHandler = () => ({
+  status: 'success',
+  data: {
+    books: books.map((book) => ({
+      id: book.id,
+      name: book.name,
+      publisher: book.publisher,
+    })),
+  },
+})
 
-}
+const getBookByIdHandler = (request, h) => ({
+
+})
 
 export {
   addBookHandler,
   getAllBooksHandler,
+  getBookByIdHandler,
 }
