@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid'
 import { books } from './books.js'
 
+// Handler for add book
 const addBookHandler = (request, h) => {
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload
 
@@ -24,6 +25,7 @@ const addBookHandler = (request, h) => {
     updatedAt,
   }
 
+  // Response if name property is not filled
   if(name === undefined) {
     const response = h.response({
       status: 'fail',
@@ -32,6 +34,7 @@ const addBookHandler = (request, h) => {
     response.code(400)
     return response
   }
+  // Response if readPage value is more than pageCount
   if(readPage > pageCount) {
     const response = h.response({
       status: 'fail',
@@ -65,9 +68,11 @@ const addBookHandler = (request, h) => {
   return response
 }
 
+// Handler for show all books or sorted by certain condition
 const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query
 
+  // sort books based on book name
   if(name) {
     return {
       status: 'success',
@@ -80,6 +85,7 @@ const getAllBooksHandler = (request, h) => {
       },
     }
   }
+  // sort books based on read status
   if(reading) {
     const isReading = reading === '1'
     return {
@@ -93,6 +99,7 @@ const getAllBooksHandler = (request, h) => {
       },
     }
   }
+  // sort books based on finish status
   if(finished) {
     const isFinished = finished === '1'
     return {
@@ -106,6 +113,7 @@ const getAllBooksHandler = (request, h) => {
       },
     }
   }
+  // show all books
   return {
     status: 'success',
     data: {
@@ -118,6 +126,7 @@ const getAllBooksHandler = (request, h) => {
   }
 }
 
+// Handler for show certain book based on book id
 const getBookByIdHandler = (request, h) => {
   const { bookId } = request.params
 
@@ -140,12 +149,14 @@ const getBookByIdHandler = (request, h) => {
   return response
 }
 
+// Handler for edit certain book based on book id
 const editBookByIdHandler = (request, h) => {
   const { bookId } = request.params
 
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload
   const updatedAt = new Date().toISOString()
 
+  // Response if name property is not filled
   if(name === undefined) {
     const response = h.response({
       status: 'fail',
@@ -154,6 +165,7 @@ const editBookByIdHandler = (request, h) => {
     response.code(400)
     return response
   }
+  // Response if readPage value is more than pageCount
   if(readPage > pageCount) {
     const response = h.response({
       status: 'fail',
@@ -194,6 +206,7 @@ const editBookByIdHandler = (request, h) => {
   return response
 }
 
+// Handler for delete certain book based on book id
 const deleteBookByIdHandler = (request, h) => {
   const { bookId } = request.params
 
